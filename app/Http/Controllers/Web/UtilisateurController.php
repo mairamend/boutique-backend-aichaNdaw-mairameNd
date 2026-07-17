@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Utilisateur;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+
 
 class UtilisateurController extends Controller
 {
@@ -43,7 +43,7 @@ class UtilisateurController extends Controller
            
             'role' => ['required','in:employe,gestionnaire,admin'],
         ]);
-        $valide['password'] = Hash::make('password123');
+        $valide['password'] = 'password123';
         Utilisateur::create($valide);
         return redirect()->route('utilisateurs.index')->with('success', 'Utilisateur créé avec succès.');
 
