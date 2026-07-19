@@ -25,8 +25,9 @@ class ProduitController extends Controller
     public function create()
     {
         //
+        $categories = Categorie::all();
         $this->authorize('create',Produit::class);
-        return view('produits.create');
+        return view('produits.create',compact('categories'));
     }
 
     /**
@@ -63,7 +64,8 @@ class ProduitController extends Controller
     {
         //
         $this->authorize('update',$produit);
-        return view('produits.edit',compact('produit'));
+        $categories = Categorie::all();
+        return view('produits.edit',compact('produit','categories'));
 
     }
 

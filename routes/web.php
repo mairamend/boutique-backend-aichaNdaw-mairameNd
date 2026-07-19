@@ -9,30 +9,34 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Web\AcheteurController;
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->name('accueil');;
 // route pour categories
-Route::middleware(['auth','role:employe,gestionnaire,admin'])->group(function(){
-    Route::resource('categories',CategorieController::class)->only(['index','show']);
-});
 Route::middleware(['auth','role:gestionnaire,admin'])->group(function(){
-    Route::resource('categories',CategorieController::class)->except(['index','show']);
+    Route::resource('categories',CategorieController::class)->except(['index','show'])
+    ->parameters(['categories' => 'categorie']);;
 });
+Route::middleware(['auth','role:employe,gestionnaire,admin'])->group(function(){
+    Route::resource('categories',CategorieController::class)->only(['index','show'])
+    ->parameters(['categories' => 'categorie']);;
+});
+
 
 // routes pour produits 
 
     // la liste des produits et le detail d'un produit  etant accessible sans connexion on a pas besoin du middleware
- Route::resource('produits',ProduitController::class)->only(['index','show']);
 Route::middleware(['auth','role:gestionnaire,admin'])->group(function(){
     Route::resource('produits',ProduitController::class)->except(['index','show']);
+});    
+ Route::resource('produits',ProduitController::class)->only(['index','show']);
+Route::middleware(['auth','role:gestionnaire,admin'])->group(function(){
+    Route::resource('acheteurs',AcheteurController::class)->except(['index','show']);
 });
 Route::middleware(['auth','role:employe,gestionnaire,admin'])->group(function(){
     Route::resource('acheteurs',AcheteurController::class)->only(['index','show']);
     Route::post('/acheteurs/{acheteur}/acheter', [AcheteurController::class, 'acheter'])->name('acheteurs.acheter');
 });
-Route::middleware(['auth','role:gestionnaire,admin'])->group(function(){
-    Route::resource('acheteurs',AcheteurController::class)->except(['index','show']);
-});
+
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('utilisateurs', UtilisateurController::class);
 });

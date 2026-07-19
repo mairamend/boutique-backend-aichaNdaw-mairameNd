@@ -76,9 +76,6 @@ class UtilisateurController extends Controller
         //
         $this->authorize('update', $utilisateur);
          $valide = $request->validate([
-            'nom' => ['string','required','max:255'],
-            'email' => ['required','email','unique:utilisateurs,email,'.$utilisateur->id],
-           
             'role' => ['required','in:employe,gestionnaire,admin'],
         ]);
         $utilisateur->update($valide);
