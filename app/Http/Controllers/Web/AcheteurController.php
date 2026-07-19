@@ -52,7 +52,8 @@ class AcheteurController extends Controller
     public function show(Acheteur $acheteur)
     {
         //
-        return view('acheteurs.show',compact('acheteur'));
+        $produits = Produit::all();
+        return view('acheteurs.show',compact('acheteur','produits'));
 
     }
 
@@ -63,6 +64,7 @@ class AcheteurController extends Controller
     {
         //
         $this->authorize('update',$acheteur);
+          
         return view('acheteurs.edit',compact('acheteur'));
     }
 
